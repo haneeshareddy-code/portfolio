@@ -57,7 +57,7 @@ export default function HeroTypography({ onHoverInteractive, onOpenResume, onOpe
         color: 'rgba(255, 255, 255, 0.9)',
         marginBottom: '10px'
       }}>
-        Designer & Editor
+        Creative Explorer | Student
       </div>
 
       {/* Compact 3-Line Bio */}
@@ -81,10 +81,13 @@ export default function HeroTypography({ onHoverInteractive, onOpenResume, onOpe
         pointerEvents: 'auto'
       }}>
         {/* Solid White Resume Pill */}
-        <button
+        <a
+          href="/resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View Resume"
           onClick={() => {
             playSoftClick();
-            if (onOpenResume) onOpenResume();
           }}
           onMouseEnter={() => {
             playPillHover();
@@ -105,6 +108,7 @@ export default function HeroTypography({ onHoverInteractive, onOpenResume, onOpe
             fontSize: '13px',
             fontWeight: 700,
             letterSpacing: '0.04em',
+            textDecoration: 'none',
             boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.15)',
             transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
             outline: 'none',
@@ -120,7 +124,7 @@ export default function HeroTypography({ onHoverInteractive, onOpenResume, onOpe
         >
           <span>Resume</span>
           <ArrowUpRight size={16} strokeWidth={2.5} />
-        </button>
+        </a>
 
         {/* Frosted Glass / White Border "Let's Talk" Pill */}
         <button

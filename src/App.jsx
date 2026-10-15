@@ -4,6 +4,7 @@ import HeaderNav from './components/HeaderNav';
 import HeroTypography from './components/HeroTypography';
 import CustomCursor from './components/CustomCursor';
 import ModalPanels from './components/ModalPanels';
+import CursorHint from './components/CursorHint';
 import { Volume2, VolumeX, Sparkles } from 'lucide-react';
 import { playSoftClick } from './utils/audio';
 
@@ -115,17 +116,20 @@ export default function App() {
             boxShadow: '0 0 10px #4ade80, 0 0 2px #4ade80',
           }}
         />
-        <span>Available for Q4/2026</span>
+        <span>Open to Opportunities</span>
       </div>
 
-      {/* 5. Hero Typography (Bottom-Left) */}
+      {/* 5. Cursive "move the cursor" Hint */}
+      <CursorHint />
+
+      {/* 6. Hero Typography (Bottom-Left) */}
       <HeroTypography
         onHoverInteractive={setIsHoveringInteractive}
         onOpenResume={() => setActiveModal('resume')}
         onOpenContact={() => setActiveModal('contact')}
       />
 
-      {/* 6. Interactive Modal Drawers */}
+      {/* 7. Interactive Modal Drawers */}
       <ModalPanels
         activeModal={activeModal}
         onClose={() => setActiveModal(null)}

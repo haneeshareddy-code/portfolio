@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
-import { X, ExternalLink, Mail, FileText, Send, Sparkles } from 'lucide-react';
-import { playSoftClick } from '../utils/audio';
+import React from 'react';
+import { X, ExternalLink, Mail, ArrowUpRight, FileText } from 'lucide-react';
+import { playSoftClick, playPillHover } from '../utils/audio';
 
 export default function ModalPanels({ activeModal, onClose, onHoverInteractive }) {
-  const [formSent, setFormSent] = useState(false);
-  const [senderName, setSenderName] = useState('');
-  const [senderEmail, setSenderEmail] = useState('');
-  const [message, setMessage] = useState('');
-
   if (!activeModal) return null;
-
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    playSoftClick();
-    setFormSent(true);
-  };
 
   return (
     <div
@@ -25,14 +14,14 @@ export default function ModalPanels({ activeModal, onClose, onHoverInteractive }
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: 'rgba(50, 4, 6, 0.58)',
+        backgroundColor: 'rgba(50, 4, 6, 0.62)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
         zIndex: 200,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '24px',
+        padding: '20px',
         animation: 'fadeIn 0.25s ease'
       }}
     >
@@ -44,10 +33,10 @@ export default function ModalPanels({ activeModal, onClose, onHoverInteractive }
           maxWidth: '580px',
           maxHeight: '88vh',
           overflowY: 'auto',
-          backgroundColor: 'rgba(173, 17, 20, 0.92)',
+          backgroundColor: 'rgba(173, 17, 20, 0.94)',
           border: '1px solid rgba(255, 255, 255, 0.22)',
           borderRadius: '24px',
-          padding: '36px',
+          padding: 'clamp(24px, 4vw, 36px)',
           boxShadow: '0 24px 64px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.25)',
           color: '#ffffff',
           fontFamily: 'var(--font-sans)',
@@ -59,6 +48,7 @@ export default function ModalPanels({ activeModal, onClose, onHoverInteractive }
             playSoftClick();
             onClose();
           }}
+          aria-label="Close modal"
           onMouseEnter={() => onHoverInteractive(true)}
           onMouseLeave={() => onHoverInteractive(false)}
           style={{
@@ -89,355 +79,407 @@ export default function ModalPanels({ activeModal, onClose, onHoverInteractive }
           <X size={18} />
         </button>
 
-        {/* WORK MODAL - DESIGNER & EDITOR */}
+        {/* 1. WORK SECTION — SELECTED WEBSITE PROJECTS */}
         {activeModal === 'work' && (
           <div>
-            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.65, marginBottom: '6px' }}>
-              Creative Portfolio
+            <div style={{ fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.7, marginBottom: '6px' }}>
+              Personal Experiments
             </div>
-            <h2 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '8px' }}>
-              Designer & Editor Work
-            </h2>
-            <p style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.8)', marginBottom: '22px' }}>
-              Curated creative projects spanning visual design, video editing, and organized media production.
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {[
-                {
-                  title: 'Cinematic Story Cuts & Video Edits',
-                  desc: 'Pacing-focused video editing with seamless audio sync, beat-matched transitions, dynamic title cards, and refined color grading.',
-                  tags: ['Premiere Pro', 'DaVinci Resolve', 'Video Editing', 'Sound Design']
-                },
-                {
-                  title: 'Brand Visual Identity & Graphic Layouts',
-                  desc: 'Editorial layouts, poster graphics, visual branding guidelines, and clean typographics tailored for print and digital publishing.',
-                  tags: ['Graphic Design', 'Figma', 'Photoshop', 'Typography']
-                },
-                {
-                  title: 'Content Organization & Media Asset Systems',
-                  desc: 'Structured digital production workflows, media categorization, tagging systems, and asset pipelines for fast-turnaround creative teams.',
-                  tags: ['Media Organizing', 'Workflow Design', 'Notion', 'Curation']
-                },
-                {
-                  title: 'Motion Title Sequences & Social Reels',
-                  desc: 'Bespoke short-form vertical edits and motion typography crafted for high engagement across modern media platforms.',
-                  tags: ['After Effects', 'Short-Form Reels', 'Motion Design']
-                }
-              ].map((proj, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    borderRadius: '16px',
-                    padding: '18px 20px',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseEnter={() => onHoverInteractive(true)}
-                  onMouseLeave={() => onHoverInteractive(false)}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                    <h3 style={{ fontSize: '16px', fontWeight: 600 }}>{proj.title}</h3>
-                    <ExternalLink size={15} opacity={0.7} />
-                  </div>
-                  <p style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.78)', lineHeight: 1.5, marginBottom: '12px' }}>
-                    {proj.desc}
-                  </p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                    {proj.tags.map((t, tidx) => (
-                      <span
-                        key={tidx}
-                        style={{
-                          fontSize: '11px',
-                          padding: '3px 9px',
-                          borderRadius: '9999px',
-                          backgroundColor: 'rgba(255, 255, 255, 0.12)',
-                          color: 'rgba(255, 255, 255, 0.9)'
-                        }}
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ABOUT MODAL - EXACT REQUESTED STUDENT PROFILE */}
-        {activeModal === 'about' && (
-          <div>
-            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.65, marginBottom: '6px' }}>
-              About Me
-            </div>
-            <h2 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '18px' }}>
-              About Haneesha
+            <h2 style={{ fontSize: '26px', fontWeight: 700, marginBottom: '18px', letterSpacing: '-0.01em' }}>
+              Selected Website Projects
             </h2>
 
-            {/* User's Exact About Statement */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '16px',
-                padding: '20px 22px',
-                marginBottom: '20px',
-                fontSize: '15px',
-                lineHeight: 1.7,
-                color: '#ffffff',
-                boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.25)'
-              }}
-            >
-              "I am a student who is fascinated about design, editing, organizing and would love to explore any opportunities that involve those skills."
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px', marginTop: '16px' }}>
-              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.06)', padding: '16px', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ fontSize: '12px', fontWeight: 700, marginBottom: '6px', opacity: 0.75, letterSpacing: '0.1em' }}>🎨 DESIGN</div>
-                <div style={{ fontSize: '13px', lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
-                  Visual Design, Figma, Photoshop, Illustrator, Color Harmony, Layout Composition, Brand Graphics
-                </div>
-              </div>
-
-              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.06)', padding: '16px', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ fontSize: '12px', fontWeight: 700, marginBottom: '6px', opacity: 0.75, letterSpacing: '0.1em' }}>🎬 EDITING</div>
-                <div style={{ fontSize: '13px', lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
-                  Video Cutting, Premiere Pro, DaVinci Resolve, Audio Syncing, Rhythm & Transition Flow, Color Correction
-                </div>
-              </div>
-
-              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.06)', padding: '16px', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ fontSize: '12px', fontWeight: 700, marginBottom: '6px', opacity: 0.75, letterSpacing: '0.1em' }}>🗂️ ORGANIZING</div>
-                <div style={{ fontSize: '13px', lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
-                  Media Asset Management, Production Timelines, Project Workspaces, Structured Content Pipelines
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* CONTACT MODAL */}
-        {activeModal === 'contact' && (
-          <div>
-            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.65, marginBottom: '6px' }}>
-              Get In Touch
-            </div>
-            <h2 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '10px' }}>
-              Contact Haneesha
-            </h2>
-            <p style={{ fontSize: '14px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.85)', marginBottom: '22px' }}>
-              Interested in collaborating, hiring for creative design or video editing projects, or sharing an opportunity? Feel free to reach out directly:
-            </p>
-
-            {/* Quick Contact Buttons */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-              <a
-                href="mailto:haneesha@gmail.com"
-                onMouseEnter={() => onHoverInteractive(true)}
-                onMouseLeave={() => onHoverInteractive(false)}
+            {/* 3 Project Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '20px' }}>
+              {/* Project 1: Artcom Vizag Vibes */}
+              <div
                 style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.07)',
+                  border: '1px solid rgba(255, 255, 255, 0.16)',
+                  borderRadius: '16px',
+                  padding: '20px',
                   display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '14px 18px',
-                  borderRadius: '14px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                  border: '1px solid rgba(255, 255, 255, 0.22)',
-                  color: '#ffffff',
-                  textDecoration: 'none',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  transition: 'all 0.2s ease'
+                  flexDirection: 'column',
+                  gap: '10px'
                 }}
               >
-                <Mail size={18} />
-                <span>haneesha@gmail.com</span>
-              </a>
-
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  onMouseEnter={() => onHoverInteractive(true)}
-                  onMouseLeave={() => onHoverInteractive(false)}
-                  style={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    padding: '12px',
-                    borderRadius: '12px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    color: '#ffffff',
-                    textDecoration: 'none',
-                    fontSize: '13px'
-                  }}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-                  <span>Instagram</span>
-                </a>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  onMouseEnter={() => onHoverInteractive(true)}
-                  onMouseLeave={() => onHoverInteractive(false)}
-                  style={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    padding: '12px',
-                    borderRadius: '12px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    color: '#ffffff',
-                    textDecoration: 'none',
-                    fontSize: '13px'
-                  }}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                  <span>LinkedIn</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Quick Note Form */}
-            <form onSubmit={handleSendMessage} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', opacity: 0.75 }}>
-                Or Send a Quick Message
-              </div>
-              {formSent ? (
-                <div style={{ backgroundColor: 'rgba(74, 222, 128, 0.2)', border: '1px solid #4ade80', padding: '14px', borderRadius: '12px', fontSize: '13px', textAlign: 'center' }}>
-                  ✓ Thank you! Your message has been sent to Haneesha.
-                </div>
-              ) : (
-                <>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Your Name"
-                    value={senderName}
-                    onChange={(e) => setSenderName(e.target.value)}
-                    style={{
-                      padding: '12px 14px',
-                      borderRadius: '10px',
-                      border: '1px solid rgba(255,255,255,0.18)',
-                      backgroundColor: 'rgba(0,0,0,0.15)',
-                      color: '#ffffff',
-                      fontSize: '13px',
-                      outline: 'none'
+                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#ffffff' }}>
+                  Artcom Vizag Vibes
+                </h3>
+                <p style={{ fontSize: '13.5px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.85)' }}>
+                  A creative website exploring visual presentation, layout, and digital design for Artcom Vizag Vibes.
+                </p>
+                <div>
+                  <a
+                    href="https://artcom-vizag-vibes-skox.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => playSoftClick()}
+                    onMouseEnter={() => {
+                      playPillHover();
+                      onHoverInteractive(true);
                     }}
-                  />
-                  <input
-                    type="email"
-                    required
-                    placeholder="Your Email"
-                    value={senderEmail}
-                    onChange={(e) => setSenderEmail(e.target.value)}
-                    style={{
-                      padding: '12px 14px',
-                      borderRadius: '10px',
-                      border: '1px solid rgba(255,255,255,0.18)',
-                      backgroundColor: 'rgba(0,0,0,0.15)',
-                      color: '#ffffff',
-                      fontSize: '13px',
-                      outline: 'none'
-                    }}
-                  />
-                  <textarea
-                    rows={3}
-                    required
-                    placeholder="Message / Opportunity details..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    style={{
-                      padding: '12px 14px',
-                      borderRadius: '10px',
-                      border: '1px solid rgba(255,255,255,0.18)',
-                      backgroundColor: 'rgba(0,0,0,0.15)',
-                      color: '#ffffff',
-                      fontSize: '13px',
-                      outline: 'none',
-                      resize: 'none'
-                    }}
-                  />
-                  <button
-                    type="submit"
-                    onMouseEnter={() => onHoverInteractive(true)}
                     onMouseLeave={() => onHoverInteractive(false)}
                     style={{
-                      padding: '12px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 16px',
                       borderRadius: '9999px',
                       backgroundColor: '#ffffff',
                       color: '#ad1114',
-                      border: 'none',
+                      fontSize: '12px',
                       fontWeight: 700,
-                      fontSize: '13px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '8px'
+                      textDecoration: 'none',
+                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-1px)';
+                      e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.3)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
                     }}
                   >
-                    <Send size={14} /> Send Message
-                  </button>
-                </>
-              )}
-            </form>
+                    <span>Visit Website</span>
+                    <ExternalLink size={13} strokeWidth={2.5} />
+                  </a>
+                </div>
+              </div>
+
+              {/* Project 2: Pixel Perfect Replicator */}
+              <div
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.07)',
+                  border: '1px solid rgba(255, 255, 255, 0.16)',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px'
+                }}
+              >
+                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#ffffff' }}>
+                  Pixel Perfect Replicator
+                </h3>
+                <p style={{ fontSize: '13.5px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.85)' }}>
+                  A website-building experiment focused on exploring web layouts, visual details, and interface design.
+                </p>
+                <div>
+                  <a
+                    href="https://pixel-perfect-replicator-6427.lovable.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => playSoftClick()}
+                    onMouseEnter={() => {
+                      playPillHover();
+                      onHoverInteractive(true);
+                    }}
+                    onMouseLeave={() => onHoverInteractive(false)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 16px',
+                      borderRadius: '9999px',
+                      backgroundColor: '#ffffff',
+                      color: '#ad1114',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-1px)';
+                      e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.3)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+                    }}
+                  >
+                    <span>Visit Website</span>
+                    <ExternalLink size={13} strokeWidth={2.5} />
+                  </a>
+                </div>
+              </div>
+
+              {/* Project 3: Brew & Bistro */}
+              <div
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.07)',
+                  border: '1px solid rgba(255, 255, 255, 0.16)',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px'
+                }}
+              >
+                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#ffffff' }}>
+                  Brew & Bistro
+                </h3>
+                <p style={{ fontSize: '13.5px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.85)' }}>
+                  A café-themed website experiment exploring visual presentation, branding, and the design of a food and beverage concept.
+                </p>
+                <div>
+                  <a
+                    href="https://brew-n-bistro-heart.lovable.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => playSoftClick()}
+                    onMouseEnter={() => {
+                      playPillHover();
+                      onHoverInteractive(true);
+                    }}
+                    onMouseLeave={() => onHoverInteractive(false)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 16px',
+                      borderRadius: '9999px',
+                      backgroundColor: '#ffffff',
+                      color: '#ad1114',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-1px)';
+                      e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.3)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+                    }}
+                  >
+                    <span>Visit Website</span>
+                    <ExternalLink size={13} strokeWidth={2.5} />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Honest Note About Projects */}
+            <div
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.16)',
+                border: '1px solid rgba(255, 255, 255, 0.14)',
+                borderRadius: '12px',
+                padding: '14px 16px',
+                fontSize: '12.5px',
+                lineHeight: 1.6,
+                color: 'rgba(255, 255, 255, 0.82)'
+              }}
+            >
+              These websites were developed with the assistance of AI tools as personal experiments to explore my interest in website design, layouts, and visual presentation. They are frontend-focused projects and do not currently include custom backend functionality.
+            </div>
           </div>
         )}
 
-        {/* RESUME MODAL */}
+        {/* 2. ABOUT SECTION — SIMPLE AND GENUINE */}
+        {activeModal === 'about' && (
+          <div>
+            <div style={{ fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.7, marginBottom: '6px' }}>
+              Student Profile
+            </div>
+            <h2 style={{ fontSize: '26px', fontWeight: 700, marginBottom: '16px', letterSpacing: '-0.01em' }}>
+              About Haneesha
+            </h2>
+
+            {/* Exact Genuine Introduction */}
+            <p style={{ fontSize: '14.5px', lineHeight: 1.7, color: 'rgba(255, 255, 255, 0.92)', marginBottom: '22px' }}>
+              Hi, I’m Haneesha, a student interested in creativity, visual presentation, and exploring ideas through digital projects. I enjoy experimenting with website design using AI tools and creating edits using Instagram Edits. I’m still learning, exploring different creative possibilities, and looking forward to opportunities where I can grow my skills.
+            </p>
+
+            {/* Currently Exploring Subsection */}
+            <div>
+              <h3 style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', opacity: 0.75, marginBottom: '12px' }}>
+                Currently Exploring
+              </h3>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {/* Category 1: Website Creation */}
+                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.07)', padding: '14px 16px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.12)' }}>
+                  <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#ffffff', marginBottom: '3px' }}>
+                    Website Creation
+                  </div>
+                  <div style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.8)', lineHeight: 1.5 }}>
+                    Exploring website layouts and visual design with AI-assisted tools.
+                  </div>
+                </div>
+
+                {/* Category 2: Video Editing */}
+                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.07)', padding: '14px 16px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.12)' }}>
+                  <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#ffffff', marginBottom: '3px' }}>
+                    Video Editing
+                  </div>
+                  <div style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.8)', lineHeight: 1.5 }}>
+                    Basic edits using Instagram Edits.
+                  </div>
+                </div>
+
+                {/* Category 3: Design */}
+                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.07)', padding: '14px 16px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.12)' }}>
+                  <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#ffffff', marginBottom: '3px' }}>
+                    Design
+                  </div>
+                  <div style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.8)', lineHeight: 1.5 }}>
+                    Basic visual design and creative layouts using Canva.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 3. CONTACT SECTION — EMAIL ONLY */}
+        {activeModal === 'contact' && (
+          <div>
+            <div style={{ fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.7, marginBottom: '6px' }}>
+              Get In Touch
+            </div>
+            <h2 style={{ fontSize: '26px', fontWeight: 700, marginBottom: '14px', letterSpacing: '-0.01em' }}>
+              Contact
+            </h2>
+            <p style={{ fontSize: '14px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.85)', marginBottom: '24px' }}>
+              Feel free to reach out directly via email for any inquiries, conversations, or creative opportunities.
+            </p>
+
+            {/* Email Card Display */}
+            <div
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.18)',
+                borderRadius: '16px',
+                padding: '22px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+                alignItems: 'flex-start'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#ffffff' }}>
+                <Mail size={20} strokeWidth={2} />
+                <a
+                  href="mailto:smunakal@student.gitam.edu"
+                  onClick={() => playSoftClick()}
+                  onMouseEnter={() => {
+                    playPillHover();
+                    onHoverInteractive(true);
+                  }}
+                  onMouseLeave={() => onHoverInteractive(false)}
+                  style={{
+                    color: '#ffffff',
+                    fontSize: 'clamp(14px, 3.5vw, 16px)',
+                    fontWeight: 600,
+                    textDecoration: 'underline',
+                    textUnderlineOffset: '4px',
+                    wordBreak: 'break-all'
+                  }}
+                >
+                  smunakal@student.gitam.edu
+                </a>
+              </div>
+
+              {/* Small "Email Me" button */}
+              <a
+                href="mailto:smunakal@student.gitam.edu"
+                onClick={() => playSoftClick()}
+                onMouseEnter={() => {
+                  playPillHover();
+                  onHoverInteractive(true);
+                }}
+                onMouseLeave={() => onHoverInteractive(false)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '10px 22px',
+                  borderRadius: '9999px',
+                  backgroundColor: '#ffffff',
+                  color: '#ad1114',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.22)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.3)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.22)';
+                }}
+              >
+                <span>Email Me</span>
+                <ArrowUpRight size={14} strokeWidth={2.5} />
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* 4. RESUME MODAL — OPENS ACTUAL RESUME PDF */}
         {activeModal === 'resume' && (
           <div>
-            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.65, marginBottom: '6px' }}>
-              Student Profile & CV
+            <div style={{ fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.7, marginBottom: '6px' }}>
+              Student Resume
             </div>
-            <h2 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px' }}>
-              Resume Overview
+            <h2 style={{ fontSize: '26px', fontWeight: 700, marginBottom: '14px', letterSpacing: '-0.01em' }}>
+              Haneesha Reddy — Resume
             </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '22px' }}>
-              <div style={{ backgroundColor: 'rgba(255,255,255,0.06)', padding: '14px 18px', borderRadius: '12px' }}>
-                <div style={{ fontWeight: 600, fontSize: '15px' }}>Student — Design, Editing & Organization</div>
-                <div style={{ fontSize: '12px', opacity: 0.7, marginBottom: '4px' }}>Active Student</div>
-                <div style={{ fontSize: '13px', opacity: 0.85, lineHeight: 1.5 }}>Dedicated to mastering visual storytelling, digital video editing techniques, and systematic content coordination.</div>
-              </div>
-              <div style={{ backgroundColor: 'rgba(255,255,255,0.06)', padding: '14px 18px', borderRadius: '12px' }}>
-                <div style={{ fontWeight: 600, fontSize: '15px' }}>Independent Designer & Video Editor</div>
-                <div style={{ fontSize: '12px', opacity: 0.7, marginBottom: '4px' }}>Projects & Freelance</div>
-                <div style={{ fontSize: '13px', opacity: 0.85, lineHeight: 1.5 }}>Created promotional cuts, social media reels, graphic branding materials, and organized collaborative assets.</div>
-              </div>
-            </div>
-            <button
-              onClick={() => {
-                playSoftClick();
-                alert("Resume downloaded successfully.");
+            <p style={{ fontSize: '14px', lineHeight: 1.6, color: 'rgba(255, 255, 255, 0.85)', marginBottom: '22px' }}>
+              View my official resume PDF detailing my academic credentials, leadership projects, and extracurricular activities.
+            </p>
+
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Resume"
+              onClick={() => playSoftClick()}
+              onMouseEnter={() => {
+                playPillHover();
+                onHoverInteractive(true);
               }}
-              onMouseEnter={() => onHoverInteractive(true)}
               onMouseLeave={() => onHoverInteractive(false)}
               style={{
                 width: '100%',
-                padding: '14px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                padding: '14px 24px',
                 borderRadius: '9999px',
                 backgroundColor: '#ffffff',
                 color: '#ad1114',
-                border: 'none',
-                fontWeight: 700,
                 fontSize: '14px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px'
+                fontWeight: 700,
+                textDecoration: 'none',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 8px 22px rgba(0, 0, 0, 0.35)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.25)';
               }}
             >
-              <FileText size={16} /> Download Full CV
-            </button>
+              <FileText size={17} strokeWidth={2.5} />
+              <span>View Resume (PDF)</span>
+              <ArrowUpRight size={16} strokeWidth={2.5} />
+            </a>
           </div>
         )}
       </div>
